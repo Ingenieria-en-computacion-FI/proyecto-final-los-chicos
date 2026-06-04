@@ -2,7 +2,15 @@
 #include <stdlib.h>
 #include "queue.h"
 
-// Crea una cola vacía en el heap
+/*
+ * Complejidad espacial del archivo: O(n)
+ * donde n es el número de procesos en la cola.
+ * Cada nodo ocupa espacio constante O(1),
+ * y hay n nodos en total.
+ */
+
+
+// Crea una cola vacía en el heap. Complejidad temporal: O(1)
 
 Queue *queue_create(void) {
     Queue *q = (Queue *)malloc(sizeof(Queue));
@@ -16,7 +24,7 @@ Queue *queue_create(void) {
     return q;
 }
 
-// Inserta un proceso al final de la cola siguiendo FIFO
+// Inserta un proceso al final de la cola siguiendo FIFO. Complejidad temporal: O(1)
 
 int queue_enqueue(Queue *q, Process p) {
     if (!q) return 0;
@@ -29,7 +37,7 @@ int queue_enqueue(Queue *q, Process p) {
     node->process = p;
     node->next = NULL;
 
-    if (q->rear == NULL) { // Verificación si la cola se encuentra vacía; es decir rear y front apuntan al mismo nodo.
+    if (q->rear == NULL) { // Verificación si la cola se encuentra vacía; es decir rear y front apuntan al mismo nodo. Complejidad temporal: O(1)
         q->front = node;
         q->rear = node;
     } else {
@@ -40,7 +48,7 @@ int queue_enqueue(Queue *q, Process p) {
     return 1;
 }
 
-// Extrae el proceso de enfrente
+// Extrae el proceso de enfrente. Complejidad temporal: O(1)
 
 int queue_dequeue(Queue *q, Process *out) {
     if (!q || !q->front) {
@@ -59,7 +67,7 @@ int queue_dequeue(Queue *q, Process *out) {
     return 1;
 }
 
-// Copia el frente
+// Copia el frente. Complejidad temporal: O(1)
 
 int queue_peek(const Queue *q, Process *out) {
     if (!q || !q->front) return 0;
@@ -67,7 +75,7 @@ int queue_peek(const Queue *q, Process *out) {
     return 1;
 }
 
-// Verificación de procesos
+// Verificación de procesos. Complejidad temporal: O(1)
 
 int queue_is_empty(const Queue *q) {
     if (!q) return 1;
@@ -79,7 +87,7 @@ int queue_size(const Queue *q) {
     return q->size;
 }
 
-// Muestra todos los procesos existentes en la cola
+// Muestra todos los procesos existentes en la cola. Complejidad temporal: O(1)
 
 void queue_print(const Queue *q) {
     if (!q || !q->front) {
@@ -95,7 +103,7 @@ void queue_print(const Queue *q) {
     printf("NULL\n");
 }
 
-// Libera todos los nodos o procesos de la cola
+// Libera todos los nodos o procesos de la cola. Complejidad temporal: O(1)
 
 void queue_destroy(Queue *q) {
     if (!q) return;
