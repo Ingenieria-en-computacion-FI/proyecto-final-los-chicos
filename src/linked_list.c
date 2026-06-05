@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include "linked_list.h"
 
+/*
+ * Complejidad espacial del archivo: O(n)
+ * donde n es el número de procesos en la lista.
+ * Cada nodo ocupa espacio constante O(1),
+ * y hay n nodos en total.
+ */
+
 //   Crea una lista vacía en el heap: Complejidad: O(1)
 
 LinkedList *list_create(void) {
@@ -93,12 +100,13 @@ int list_remove(LinkedList *list, int pid) {
     return 1;
 }
 
-// Varificación de lista vacía
+// Varificación de lista vacía| O(1)
 
 int list_is_empty(const LinkedList *list) {
     if (!list) return 1;
     return list->size == 0;
 }
+// Agrega tamaño a la lista. Complejidad temporal: O(1) 
 
 int list_size(const LinkedList *list) {
     if (!list) return 0;

@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include "doubly_linked_list.h"
 
+/*
+ * Complejidad espacial del archivo: O(n)
+ * donde n es el número de bloques de memoria.
+ * Cada bloque ocupa espacio constante O(1),
+ * y hay n bloques en total.
+ */
+ 
+
 // Inserta new_block despues de ref. Si ref es NULL inserta al inicio
 // Complejidad: O(1)
 void dll_insert_after(MemoryManager* mm, MemoryBlock* ref, MemoryBlock* new_block) {
