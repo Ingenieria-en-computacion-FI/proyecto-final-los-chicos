@@ -25,3 +25,9 @@ void test_first_fit() {
 
     mm_destroy(mm);
 }
+
+int main() {
+    test_first_fit();
+    printf("¡Test First Fit pasado con exito!\n");
+    return 0;
+}
