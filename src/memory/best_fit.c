@@ -6,6 +6,10 @@
  * el bloque en la lista y asignarle el 'pid' manualmente (bloque->pid = tu_pid).
  * ==============================================================================
  */
+#include <stdio.h>
+#include <stdlib.h>
+#include "memory_manager.h" 
+
 int mm_allocate_best_fit(
     MemoryManager* mm,
     int size

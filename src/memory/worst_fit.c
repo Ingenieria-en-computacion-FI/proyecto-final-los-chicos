@@ -3,6 +3,10 @@
 lo mismo aqui rey, checa para unir bien
  * ==============================================================================
  */
+#include <stdio.h>
+#include <stdlib.h>
+#include "memory_manager.h" 
+
 int mm_allocate_worst_fit(
     MemoryManager* mm,
     int size
