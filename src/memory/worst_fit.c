@@ -1,16 +1,11 @@
-/* * ==============================================================================
- * AVISO PARA SCHEDULER: 
-lo mismo aqui rey, checa para unir bien
- * ==============================================================================
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include "memory_manager.h" 
 
-int mm_allocate_worst_fit(
-    MemoryManager* mm,
-    int size
-) {
+// Asigna el hueco libre más grande disponible al proceso
+// Complejidad temporal: O(n) | Complejidad espacial: O(1)
+
+int mm_allocate_worst_fit(MemoryManager* mm, int pid, int size) {
     if (mm == NULL || mm->head == NULL || size <= 0) return -1;
 
     MemoryBlock* bloque = mm->head;
@@ -52,6 +47,7 @@ int mm_allocate_worst_fit(
 
         peor_bloque->size = size;
         peor_bloque->free = 0;
+        peor_bloque->pid = pid;
         
         return peor_bloque->start;
     }
