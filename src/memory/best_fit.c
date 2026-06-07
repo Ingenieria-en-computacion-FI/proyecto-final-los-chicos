@@ -1,6 +1,6 @@
 /* * ==============================================================================
  * AVISO PARA SCHEDULER: 
- * Por diseño de la plantilla, esta función NO recibe el PID, solo el tamaño.
+ * Por diseño de la plantilla, esta función NO recibe el PID, solo el tamaño. // Ya se corrijio por Ehidan
  * Retorna la posición 'start' del bloque asignado (o -1 si no hay espacio).
  * * ¡OBLIGATORIO!: Después de llamar a esta función con éxito, DEBES buscar 
  * el bloque en la lista y asignarle el 'pid' manualmente (bloque->pid = tu_pid).
@@ -10,10 +10,10 @@
 #include <stdlib.h>
 #include "memory_manager.h" 
 
-int mm_allocate_best_fit(
-    MemoryManager* mm,
-    int size
-) {
+// Busca el hueco libre con menor desperdicio y asigna al proceso
+// Complejidad temporal: O(n) | Complejidad espacial: O(1)
+
+int mm_allocate_best_fit(MemoryManager* mm, int pid, int size) {
     if (mm == NULL || mm->head == NULL || size <= 0) return -1;
 
     MemoryBlock* bloque = mm->head;
@@ -56,6 +56,7 @@ int mm_allocate_best_fit(
 
         mejor_bloque->size = size;
         mejor_bloque->free = 0;
+        mejor_bloque->pid = pid; 
         
         return mejor_bloque->start;
     }
