@@ -2,19 +2,10 @@
 #include <stdlib.h>
 #include "memory_manager.h"
 
-/* * ==============================================================================
- * AVISO PARA SCHEDULER: 
- * Por diseño de la plantilla, esta función NO recibe el PID, solo el tamaño.
- * Retorna la posición 'start' del bloque asignado (o -1 si no hay espacio).
- * * ¡OBLIGATORIO!: Después de llamar a esta función con éxito, DEBES buscar 
- * el bloque en la lista y asignarle el 'pid' manualmente (bloque->pid = tu_pid). 
- * Si no lo haces, mm_free() no sabrá qué memoria liberar cuando el proceso termine.
- * ==============================================================================
- */
-int mm_allocate_first_fit(
-    MemoryManager* mm,
-    int size
-) {
+// Asigna el primer hueco libre con tamaño suficiente al proceso
+// Complejidad temporal: O(n) | Complejidad espacial: O(1)
+
+int mm_allocate_first_fit(MemoryManager* mm, int pid, int size) {
     if (mm == NULL || mm->head == NULL || size <= 0) {
         return -1; // Fallo de seguridad
     }
@@ -49,6 +40,7 @@ int mm_allocate_first_fit(
             // Actualizamos el bloque actual para asignarlo
             bloque->size = size;
             bloque->free = 0;
+            bloque->pid  = pid;
             
             // Retornamos la posición (start) del bloque asignado como indicador de éxito
             return bloque->start; 

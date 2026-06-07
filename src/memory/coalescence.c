@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "memory_manager.h"
 
+// Fusiona bloques libres adyacentes para reducir la fragmentación
+// Complejidad temporal: O(n) | Complejidad espacial: O(1)
+
 /*
  * Recorre toda la lista de memoria del MemoryManager
  * y fusiona cualquier grupo de bloques libres contiguos.
