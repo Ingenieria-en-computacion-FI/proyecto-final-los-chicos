@@ -24,4 +24,10 @@ typedef struct {
 
 } Process;
 
+Process process_create(int pid, int burst_time, int priority, int memory_required);
+
+const char *process_state_str(ProcessState state);
+
+void process_print(const Process *p);
+
 #endif
