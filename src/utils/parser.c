@@ -2,96 +2,83 @@
 #include <stdlib.h>
 #include <string.h>
 #include "process.h"
-
-/*
- * parser.c  –  src/utils/parser.c
- *
- * Lee archivos CSV generados por Python (generate_processes.py)
- * y llena un arreglo de Process para pasarlo a los schedulers.
- *
- * Formato esperado del CSV:
- *   pid,burst_time,priority,memory_required
- *   1,5,2,128
- *   2,3,1,64
- *
- * Complejidad temporal: O(n)  donde n = número de líneas
- * Complejidad espacial: O(1)  (escribe directo en el arreglo)
- */
-
-#define PARSER_MAX_LINE 256
-
-/*
- * parse_processes_from_csv
- * Llena el arreglo `out` con los procesos leídos del CSV.
- * Devuelve el número de procesos leídos, o -1 si hay error.
- * `max` es el tamaño máximo del arreglo `out`.
- */
-int parse_processes_from_csv(const char* filepath, Process* out, int max) {
-    if (!filepath || !out || max <= 0) return -1;
-
-    FILE* f = fopen(filepath, "r");
-    if (!f) {
-        fprintf(stderr, "[PARSER] Error: no se pudo abrir '%s'\n", filepath);
-        return -1;
-    }
-
-    char line[PARSER_MAX_LINE];
-    int count = 0;
-
-    while (fgets(line, sizeof(line), f)) {
-        /* Saltar encabezado y líneas vacías */
-        if (line[0] == '\n' || line[0] == '#') continue;
-        if (line[0] == 'p'  || line[0] == 'P') continue;
-
-        if (count >= max) {
-            fprintf(stderr, "[PARSER] Capacidad máxima (%d) alcanzada\n", max);
-            break;
-        }
-
-        int pid, burst_time, priority, memory_required;
-        if (sscanf(line, "%d,%d,%d,%d",
-                   &pid, &burst_time, &priority, &memory_required) != 4) {
-            fprintf(stderr, "[PARSER] Línea malformada, se omite: %s", line);
-            continue;
-        }
-
-        out[count].pid              = pid;
-        out[count].burst_time       = burst_time;
-        out[count].remaining_time   = burst_time;
-        out[count].priority         = priority;
-        out[count].memory_required  = memory_required;
-        out[count].state            = READY;
-        count++;
-    }
-
-    fclose(f);
-    printf("[PARSER] %d procesos cargados desde '%s'\n", count, filepath);
-    return count;
+ 
+#define MAX_LINE 256
+ 
+static ProcessState parse_state(const char *str) {
+    if (strcmp(str, "READY")    == 0) return READY;
+    if (strcmp(str, "RUNNING")  == 0) return RUNNING;
+    if (strcmp(str, "BLOCKED")  == 0) return BLOCKED;
+    if (strcmp(str, "FINISHED") == 0) return FINISHED;
+    return READY;
 }
-
-/*
- * parse_quantum_from_file
- * Lee un entero desde un archivo de una sola línea.
- * Devuelve el quantum leído, o default_val si falla.
- */
-int parse_quantum_from_file(const char* filepath, int default_val) {
-    if (!filepath) return default_val;
-
-    FILE* f = fopen(filepath, "r");
+ 
+Process *parser_load_csv(const char *filepath, int *count) {
+    if (!filepath || !count) return NULL;
+ 
+    FILE *f = fopen(filepath, "r");
     if (!f) {
-        fprintf(stderr, "[PARSER] No se encontró config de quantum, "
-                        "usando default=%d\n", default_val);
-        return default_val;
+        fprintf(stderr, "Error: no se pudo abrir %s\n", filepath);
+        return NULL;
     }
-
-    int quantum = default_val;
-    if (fscanf(f, "%d", &quantum) != 1 || quantum <= 0) {
-        fprintf(stderr, "[PARSER] Quantum inválido, usando default=%d\n",
-                default_val);
-        quantum = default_val;
+ 
+    char line[MAX_LINE];
+    int  total = 0;
+ 
+    fgets(line, sizeof(line), f);
+ 
+    while (fgets(line, sizeof(line), f))
+        total++;
+ 
+    if (total == 0) {
+        fclose(f);
+        fprintf(stderr, "Error: el archivo esta vacio\n");
+        return NULL;
     }
-
+ 
+    rewind(f);
+    fgets(line, sizeof(line), f);
+ 
+    Process *processes = malloc(total * sizeof(Process));
+    if (!processes) {
+        fclose(f);
+        return NULL;
+    }
+ 
+    int i = 0;
+    while (fgets(line, sizeof(line), f)) {
+        line[strcspn(line, "\n")] = '\0';
+ 
+        char state_str[16];
+        sscanf(line, "%d,%d,%d,%d,%d,%15s",
+            &processes[i].pid,
+            &processes[i].burst_time,
+            &processes[i].remaining_time,
+            &processes[i].priority,
+            &processes[i].memory_required,
+            state_str);
+ 
+        processes[i].state = parse_state(state_str);
+        i++;
+    }
+ 
     fclose(f);
-    printf("[PARSER] Quantum=%d cargado desde '%s'\n", quantum, filepath);
-    return quantum;
+    *count = total;
+    return processes;
+}
+ 
+void parser_print_processes(const Process *processes, int count) {
+    if (!processes || count <= 0) return;
+    printf("%-6s %-12s %-16s %-10s %-18s %-10s\n",
+           "PID", "BURST_TIME", "REMAINING_TIME", "PRIORITY", "MEMORY_REQUIRED", "STATE");
+    printf("----------------------------------------------------------------------\n");
+    for (int i = 0; i < count; i++) {
+        printf("%-6d %-12d %-16d %-10d %-18d %-10s\n",
+               processes[i].pid,
+               processes[i].burst_time,
+               processes[i].remaining_time,
+               processes[i].priority,
+               processes[i].memory_required,
+               process_state_str(processes[i].state));
+    }
 }
