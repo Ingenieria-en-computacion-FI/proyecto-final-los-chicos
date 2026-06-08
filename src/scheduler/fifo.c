@@ -23,7 +23,6 @@ static void mock_memory_free(int pid) {
     printf("  [MOCK MEM] PID %d: liberando memoria\n", pid);
 }
 
-// Ejecuta FIFO: el primero en llegar, primero en ejecutarse | O(n)
 SchedulerResult scheduler_fifo(Process* processes, int n, LinkedList* finished) {
     SchedulerResult result = {0, 0.0f, 0.0f, 0};
     Queue* q = queue_create();
