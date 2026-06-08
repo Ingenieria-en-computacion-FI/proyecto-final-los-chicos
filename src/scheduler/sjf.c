@@ -9,6 +9,19 @@
  * la ejecución de cada proceso es O(1).
  */
 
+/* ---- Mocks de memoria ----------------------------------------
+ * Simulan asignación y liberación de memoria mientras el módulo
+ * real del Integrante 2 no esté disponible.
+ * Cuando esté listo, solo se reemplazan estas dos funciones.
+ * -------------------------------------------------------------- */
+static void mock_memory_allocate(int pid, int memory_required) {
+    printf("  [MOCK MEM] PID %d: asignando %d MB\n", pid, memory_required);
+}
+
+static void mock_memory_free(int pid) {
+    printf("  [MOCK MEM] PID %d: liberando memoria\n", pid);
+}
+
 // Ordena procesos por burst_time ascendente | O(n^2)
 static void ordenar_burst(Process* arr, int n) {
     for (int i = 0; i < n - 1; i++) {
