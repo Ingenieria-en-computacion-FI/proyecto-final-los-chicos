@@ -32,14 +32,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--count",    "-n", type=int, default=10)
     parser.add_argument("--scenario", "-s", choices=SCENARIOS, default="balanced")
-    parser.add_argument("--seed",           type=int, default=None)
+    parser.add_argument("--seed", type=int, default=None)
+    parser.add_argument("--filename", type=str, default=None)
     parser.add_argument("--output-dir","-o",type=Path, default=Path("data/inputs"))
     args = parser.parse_args()
 
     processes = generate(args.count, args.scenario, args.seed)
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"processes_{args.scenario}_{ts}.csv"
+    filename = f"{args.filename}.csv" if args.filename else f"processes_{args.scenario}_{ts}.csv"
     out = args.output_dir / filename
     out.parent.mkdir(parents=True, exist_ok=True)
 
