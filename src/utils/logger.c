@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <time.h>
 #include "logger.h"
+
+/*
+ * Complejidad espacial del archivo: O(1)
+ * No almacena datos, solo imprime en consola.
+ * Todas las funciones son O(1) temporal y espacial.
+ */
  
 static const char *level_str(LogLevel level) {
     switch (level) {

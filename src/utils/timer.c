@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <time.h>
 #include "timer.h"
+
+/*
+ * Complejidad espacial del archivo: O(1)
+ * Todas las funciones son O(1) temporal y espacial.
+ */
  
 void timer_start(Timer *t) {
     if (!t) return;
