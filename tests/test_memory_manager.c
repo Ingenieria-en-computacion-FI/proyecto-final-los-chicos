@@ -1,36 +1,58 @@
 #include <assert.h>
+#include <stdio.h>
 #include "memory_manager.h"
-#include <stdio.h> 
-
-// ... resto de tu código
 
 void test_first_fit() {
     MemoryManager* mm = mm_create(1024);
 
-    int block1_start = mm_allocate_first_fit(mm, 100);
-    // Asignamos PID manualmente para que mm_free funcione
-    mm->head->pid = 1; 
-    mm->head->free = 0;
+    int r1 = mm_allocate_first_fit(mm, 1, 100);
+    int r2 = mm_allocate_first_fit(mm, 2, 200);
 
-    int block2_start = mm_allocate_first_fit(mm, 200);
-    mm->head->next->pid = 2;
-    mm->head->next->free = 0;
+    assert(r1 >= 0);
+    assert(r2 >= 0);
 
-    assert(block1_start >= 0);
-    assert(block2_start >= 0);
+    mm_free(mm, 1);
 
-    mm_free(mm, 1); // Ahora sí, liberamos el PID 1
-
-    int block3_start = mm_allocate_first_fit(mm, 50);
-
-    // Verificamos que se reutilizó el espacio
-    assert(block3_start == block1_start);
+    int r3 = mm_allocate_first_fit(mm, 3, 50);
+    assert(r3 == r1); // reutiliza el espacio liberado
 
     mm_destroy(mm);
+    printf("OK test_first_fit\n");
+}
+
+void test_coalesce() {
+    MemoryManager* mm = mm_create(1024);
+
+    mm_allocate_first_fit(mm, 1, 100);
+    mm_allocate_first_fit(mm, 2, 100);
+    mm_allocate_first_fit(mm, 3, 100);
+
+    mm_free(mm, 1);
+    mm_free(mm, 2);
+    mm_coalesce(mm);
+
+    // Después de coalescer debe haber un bloque libre de 200
+    assert(mm->head->free == 1);
+    assert(mm->head->size == 200);
+
+    mm_destroy(mm);
+    printf("OK test_coalesce\n");
+}
+
+void test_no_space() {
+    MemoryManager* mm = mm_create(100);
+
+    int r = mm_allocate_first_fit(mm, 1, 200);
+    assert(r == -1); // no hay espacio
+
+    mm_destroy(mm);
+    printf("OK test_no_space\n");
 }
 
 int main() {
     test_first_fit();
-    printf("¡Test First Fit pasado con exito!\n");
+    test_coalesce();
+    test_no_space();
+    printf("Todos los tests de memory_manager pasaron\n");
     return 0;
 }
