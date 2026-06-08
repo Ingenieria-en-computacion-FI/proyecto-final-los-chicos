@@ -12,7 +12,7 @@
 
 /* ---- Mocks de memoria ----------------------------------------
  * Simulan asignación y liberación de memoria mientras el módulo
- * real del Integrante 2 no esté disponible.
+ * real no esté disponible.
  * Cuando esté listo, solo se reemplazan estas dos funciones.
  * -------------------------------------------------------------- */
 static void mock_memory_allocate(int pid, int memory_required) {
