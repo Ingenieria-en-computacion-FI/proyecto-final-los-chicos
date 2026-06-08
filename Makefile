@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -std=c11 -Iinclude -D_POSIX_C_SOURCE=200809L
 
-SRC=$(wildcard src/**/*.c src/*.c)
+SRC=$(wildcard src/*.c src/algorithms/*.c src/memory/*.c src/scheduler/*.c src/utils/*.c tests/main.c)
 TESTS=$(wildcard tests/*.c)
 
 all:
