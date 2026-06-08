@@ -14,13 +14,6 @@
  * Cuando esté listo, solo se reemplazan estas dos funciones.
  * -------------------------------------------------------------- */
 
-static void mock_memory_allocate(int pid, int memory_required) {
-    printf("  [MOCK MEM] PID %d: asignando %d MB\n", pid, memory_required);
-}
-
-static void mock_memory_free(int pid) {
-    printf("  [MOCK MEM] PID %d: liberando memoria\n", pid);
-}
 
 // Ejecuta Round Robin con quantum dado | O(n * burst_time/quantum)
 

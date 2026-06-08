@@ -15,13 +15,6 @@
  * real no esté disponible.
  * Cuando esté listo, solo se reemplazan estas dos funciones.
  * -------------------------------------------------------------- */
-static void mock_memory_allocate(int pid, int memory_required) {
-    printf("  [MOCK MEM] PID %d: asignando %d MB\n", pid, memory_required);
-}
-
-static void mock_memory_free(int pid) {
-    printf("  [MOCK MEM] PID %d: liberando memoria\n", pid);
-}
 
 SchedulerResult scheduler_fifo(Process* processes, int n, LinkedList* finished) {
     SchedulerResult result = {0, 0.0f, 0.0f, 0};
