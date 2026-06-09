@@ -7,6 +7,20 @@
 #include "parser.h"
 #include "timer.h"
 
+/*
+ * Complejidad espacial de main.c: O(n * target)
+ * donde n = número de procesos, target = MEMORY_TOTAL / 2
+ *
+ * Desglose:
+ *   processes  → O(n)
+ *   sizes      → O(n)
+ *   memo       → O(n * target)  ← dominante
+ *   mm/mm2/mm3 → O(n) cada uno
+ *   snap       → O(n)
+ *   finished   → O(n)
+ *   variables  → O(1)
+ */
+
 #define MEMORY_TOTAL 4096
 #define QUANTUM      2
 
@@ -72,16 +86,17 @@ int main(int argc, char* argv[]) {
     backtrack_free_snapshot(snap);
     printf("Estado restaurado\n");
 
-    // 5. Programacion dinamica — verificar si los procesos caben en memoria
+    // 5. Programacion dinamica
     printf("\n--- Programacion Dinamica ---\n");
     int sizes[n];
     for (int i = 0; i < n; i++) sizes[i] = processes[i].memory_required;
     int target = MEMORY_TOTAL / 2;
-    int memo[(n + 1) * (target + 1)];
+    int* memo = malloc((n + 1) * (target + 1) * sizeof(int));
 
     dp_topdown(sizes, n, target, memo);
     dp_bottomup(sizes, n, target);
     dp_incremental(sizes, n, target);
+    free(memo);
 
     // 6. Schedulers
     Timer t;
