@@ -1,6 +1,52 @@
 # Bitácora IA
+Mini OS Project — Estructuras de Datos y Algoritmos I | Herramienta utilizada -> Cloude code (Antropic)
 
-## Prompt utilizado 1
+## Integrantes del equipo:
+
+Chavez Sanchez Ehidan Javier
+Salgado Sandoval Alexis Uriel
+Villaruel Sanchez David Uriel
+Castillo Vizcarra Ihsahn
+
+## Análisis de la estructura del proyecto
+__________________________________________________________________________________________________________________________________
+
+### Prompt utilizado.
+
+Se requiere la planificación para la implementación de estructuras de datos lineales, diseño de algoritmos. programación  modular y la adaptacion a través de lenguaje c y python para la integración de la simulación de un mini OS capaz de administrar procesos, memoria, recursos, estructuras dinamicas, algoritmos de optimización; teniendo por objetivo el uso correcto y el analisis formal de dichas estructuras. Ayudame a trazar una ruta de acciones para la correcta implementación del proyecto; cabe recalcar que aunque ayudaras a la implementación de código, es vital no sustituir el razonamiento humano[ se adjunta imajen de la estructura localizada en el repositorio de github]
+
+### Respuesta de la IA
+
+Cloude analizó el problema a implementar e indico posibles rutas de adaptación, a partir de esto se eligio la sig ruta de codificación proporcionada por la IA:
+Diseño de headers include -> Se definieron todos los .h con structs
+Estructuras de datos base src -> Implementación de estructuras de datos lineales ( Stack, queue, linked list, etc)
+Gestión de memoria — Proseguir con la implementación de archivos de gestion de memoria (carpeta "Memory")
+Schedulers src/scheduler -> Implementar FIFO, Round Robin y SJF usando las estructuras de datos ya construidas.
+Algoritmos src/algorithms -> IMplementar estratejias para la construcción de algoritmos (fuerza bruta, greedy, backtracking, divide y vencerás y programación dinámica)
+Utilidades src/utils -> Implementar archivos correspondientes de las acciones de gestion de procesos, teniendo como parametro el tiempo y memoria requerida.
+Implementación en python -> Codificar archivos para el analisis de grafica, automatización, etc
+Integración en main.c —> conectar todos los modulos en un flujo completo.
+Pruebas y compilación — correjir errores y verificar resultados
+
+### Errores encontrados
+
+Ninguno: Se decidio que esa ruta era la mejor a implementar por el equipo.
+
+### Correcciones y validaciones
+
+No hubo correcciones, se valido la rura a seguir por el equipo, ademas en la codificación se demostro que fue la más optima.
+
+
+## Diseño de estructuras de datos lineales
+__________________________________________________________________________________________________________________________________
+
+### Prompt utilizado. 
+
+
+
+
+
+## Prompt utilizados
 
 divide el trabajo en 4 para despues juntarlo, es para dividir las tareas equitativamente
 
