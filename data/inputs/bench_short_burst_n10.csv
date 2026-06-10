@@ -1,0 +1,11 @@
+pid,burst_time,remaining_time,priority,memory_required,state
+1,1,1,1,110,READY
+2,3,3,4,44,READY
+3,2,2,2,102,READY
+4,5,5,2,91,READY
+5,4,4,1,19,READY
+6,1,1,4,45,READY
+7,5,5,10,19,READY
+8,5,5,4,107,READY
+9,5,5,7,44,READY
+10,4,4,10,51,READY
